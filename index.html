@@ -1,0 +1,451 @@
+<!DOCTYPE html><html lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Geist:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+<style>
+        @layer base {
+            html, body {
+                margin: 0;
+                padding: 0;
+                background-color: #06090a;
+                color: #e1e3e4;
+                scroll-behavior: smooth;
+            }
+            body {
+                overscroll-behavior: none;
+                background-image: 
+                    radial-gradient(circle at 20% 20%, rgba(0, 71, 56, 0.25), transparent 40%),
+                    radial-gradient(circle at 80% 80%, rgba(2, 28, 48, 0.3), transparent 50%),
+                    radial-gradient(circle at 50% 50%, rgba(202, 243, 0, 0.05), transparent 60%),
+                    linear-gradient(to bottom, #06090a 0%, #0c1416 100%);
+                background-attachment: fixed;
+            }
+            .grid-pattern {
+                background-image: 
+                    linear-gradient(rgba(202, 243, 0, 0.03) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(202, 243, 0, 0.03) 1px, transparent 1px);
+                background-size: 60px 60px;
+                mask-image: radial-gradient(ellipse at center, black 20%, transparent 80%);
+            }
+            .sub-grid {
+                background-image: 
+                    linear-gradient(rgba(255, 255, 255, 0.01) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(255, 255, 255, 0.01) 1px, transparent 1px);
+                background-size: 15px 15px;
+            }
+        }
+        ::-webkit-scrollbar { display: none; }
+        
+        .three-d-card {
+            transform-style: preserve-3d;
+            perspective: 2500px;
+            transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.8s ease;
+        }
+        
+        .three-d-card:hover {
+            transform: translateY(-10px) rotateX(5deg) rotateY(-5deg);
+            box-shadow: 0 40px 80px -15px rgba(0, 0, 0, 0.5), 0 0 30px rgba(202, 243, 0, 0.1);
+        }
+
+        .glow-text-primary {
+            text-shadow: 0 0 20px rgba(202, 243, 0, 0.5), 0 0 40px rgba(0, 255, 200, 0.2);
+        }
+
+        .glass-panel {
+            background: rgba(29, 32, 33, 0.4);
+            backdrop-filter: blur(20px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 
+                inset 0 0 0 1px rgba(255, 255, 255, 0.05),
+                0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        .border-glow-intense {
+            position: relative;
+        }
+
+        .border-glow-intense::after {
+            content: '';
+            position: absolute;
+            inset: -1px;
+            border-radius: inherit;
+            padding: 1px;
+            background: linear-gradient(145deg, 
+                rgba(202, 243, 0, 0.6), 
+                transparent 40%, 
+                rgba(0, 242, 254, 0.3) 60%, 
+                transparent);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
+        }
+
+        .gradient-accent {
+            background: linear-gradient(135deg, #caf300 0%, #00f2fe 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .scanning-line {
+            position: absolute;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, rgba(0, 242, 254, 0.6), rgba(202, 243, 0, 0.8), rgba(0, 242, 254, 0.6), transparent);
+            top: -2%;
+            left: 0;
+            animation: scan 5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+            z-index: 30;
+            filter: blur(1px);
+        }
+
+        @keyframes scan {
+            0% { top: -2%; opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { top: 102%; opacity: 0; }
+        }
+
+        .floating-shape {
+            animation: float 12s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            33% { transform: translate(20px, -30px) rotate(2deg); }
+            66% { transform: translate(-15px, 15px) rotate(-1deg); }
+        }
+
+        .cta-pulse {
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-pulse::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, #caf300, #00f2fe);
+            border-radius: inherit;
+            z-index: -1;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            opacity: 0.8;
+        }
+
+        .cta-pulse:hover::before {
+            opacity: 1;
+            transform: scale(1.05);
+            filter: blur(15px);
+        }
+
+        .perspective-layout {
+            transform: perspective(2000px) rotateY(-2deg) skewX(0.5deg);
+        }
+    </style>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary": "#ffffff",
+                        "primary-fixed": "#caf300",
+                        "on-primary": "#1a1f00",
+                        "background": "#06090a",
+                        "surface": "#111415",
+                        "surface-container": "#181b1c",
+                        "surface-container-high": "#222526",
+                        "surface-container-low": "#0d1011",
+                        "on-surface": "#e1e3e4",
+                        "on-surface-variant": "#c5c9ac"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.75rem",
+                        "lg": "1rem",
+                        "xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "24px",
+                        "container-max": "1280px",
+                        "margin-mobile": "16px",
+                        "margin-desktop": "64px"
+                    },
+                    "fontFamily": {
+                        "headline-xl": ["Space Grotesk"],
+                        "headline-lg": ["Space Grotesk"],
+                        "label-mono": ["JetBrains Mono"],
+                        "body-md": ["Geist"],
+                        "display-lg": ["Space Grotesk"],
+                        "body-lg": ["Geist"]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background font-body-md text-on-surface antialiased overflow-x-hidden selection:bg-primary-fixed selection:text-on-primary" style="background-image: linear-gradient(rgba(6, 9, 10, 0.85), rgba(6, 9, 10, 0.7)), url(&quot;https://lh3.googleusercontent.com/aida-public/AB6AXuBgUJdVPDD0bA9XqsNz_in21_1y0aoY4aOToUhsiolFsteWcLKAMGMVduc583u6EFT0u4e4HYCORVSsaoUWiyATU3TRpwnziDQgw6f56zsvHiDj8_AF6a8J5rB1etW5_eVRag06BSWzHJpUmX9i7_x7sHdBTIuCpJeOTObAstgQSSkR5M7n2qPbXK6VMfd3zY3fUDEbaYpOAzjM-sbiqim_g3dOTCTaSM8u99uMaEpy25kQoid_PoMTE-H4xEBaY8FZvR291icGl6db&quot;); background-size: cover; background-position: center center; background-attachment: fixed;">
+<!-- Enhanced Layered Background -->
+
+
+<!-- Floating 3D Orbs/Decorations -->
+<div class="fixed inset-0 pointer-events-none overflow-hidden z-0">
+<div class="absolute top-[10%] right-[15%] w-80 h-80 border border-primary-fixed/20 rounded-full floating-shape blur-[2px]" style="animation-delay: -2s; background: radial-gradient(circle, rgba(202, 243, 0, 0.05), transparent 70%); transform: translate(-5.625px, 6.356968px);"></div>
+<div class="absolute bottom-[10%] left-[10%] w-[500px] h-[500px] border border-cyan-500/10 rounded-full floating-shape blur-[1px]" style="animation-delay: -5s; background: radial-gradient(circle, rgba(0, 242, 254, 0.03), transparent 70%); transform: translate(-11.25px, 12.713936px);"></div>
+<div class="absolute top-[30%] left-[40%] w-3 h-3 bg-primary-fixed rounded-full animate-ping opacity-40"></div>
+<div class="absolute bottom-[40%] right-[20%] w-2 h-2 bg-cyan-400 rounded-full animate-pulse"></div>
+</div>
+<header class="fixed top-6 left-1/2 -translate-x-1/2 w-[calc(100%-2*theme(spacing.margin-mobile))] max-w-container-max z-50 glass-panel rounded-full px-6 lg:px-10 shadow-2xl transition-all duration-500 hover:scale-[1.01]">
+<div class="h-16 lg:h-20 flex items-center justify-between gap-4">
+<div class="flex items-center gap-4 group cursor-pointer">
+<div class="relative">
+<div class="absolute inset-0 bg-primary-fixed blur-lg opacity-40 group-hover:opacity-70 transition-opacity"></div>
+<img alt="Logo Portofolio" class="relative h-9 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAbCrzoRatmqv-Yu7F0k-QgcyixIh8gm5WVPjdOLYUz3C0i9draU2gd4twlqGFEAwI7dcdqF2TEuDRbL1vKyoGsjFdhb9Y74XTTbgiF4kVHQz13-fwK2walACBhqzs2FUINwlQWMjWu54dciVHDBKd9DjAt0nAL1YMTu4hW6fA2hx8WYAj9LZPayAsv1rAEiyKsx6NEVBn3FxMai6WJLxpulkHc7fBbvQN7Gp6V749XL7hpxUukuLrlqg7821FT1S3tmIoP4RqmBBnD">
+</div>
+<span class="font-headline-lg text-lg tracking-tight font-bold hidden sm:block glow-text-primary uppercase letter-spacing-widest">REZAL FAUZIAN</span>
+</div>
+<nav class="hidden lg:flex items-center gap-8 font-label-mono text-[10px] uppercase tracking-[0.2em]">
+<a aria-current="page" class="transition-all text-primary-fixed hover:glow-text-primary font-bold relative after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-[2px] after:bg-primary-fixed" href="index.html">Home</a>
+<a class="text-on-surface-variant hover:text-primary transition-all hover:translate-y-[-1px]" href="tentang.html">About</a>
+<a class="text-on-surface-variant hover:text-primary transition-all hover:translate-y-[-1px]" href="proyek.html">Projects</a>
+<a class="text-on-surface-variant hover:text-primary transition-all hover:translate-y-[-1px]" href="sertifikat.html">Certificates</a>
+<a class="text-on-surface-variant hover:text-primary transition-all hover:translate-y-[-1px]" href="pengalaman.html">Experience</a>
+<a class="text-on-surface-variant hover:text-primary transition-all hover:translate-y-[-1px]" href="keahlian.html">Skills</a>
+<a class="text-on-surface-variant hover:text-primary transition-all hover:translate-y-[-1px]" href="kontak.html">Contact</a>
+</nav>
+<div class="flex items-center gap-5">
+<button class="lg:hidden text-on-surface hover:text-primary-fixed transition-colors"><span class="material-symbols-outlined text-3xl">menu</span></button>
+<div class="relative group p-[2px] rounded-full bg-gradient-to-tr from-primary-fixed via-cyan-400 to-transparent">
+<div class="absolute inset-0 rounded-full blur-md opacity-0 group-hover:opacity-50 transition-opacity bg-primary-fixed"></div>
+<img alt="Profile" class="relative w-10 h-10 rounded-full border-2 border-black/80 object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAPO5-rljmI48ZuSeTAGXLHU3wQs2W_nqdBOxkkZ5XcoBc1W5MaRE8lPgwx2QbqT13KZQ5b63L93ZN29UQxDO-C0MjlLBe6cPgo1_W8p7AVST3HVkc6qUXmKZ6yzN2ydItx9OIxCMhUz3q-kwmkvIBwAfeNY_TOlIo2Axm7DTyjDJVZ-X8cufIX1bv0YJgAA5MTrpVV9uwj8Ns6kNKwXrahiLl8QA5LSsvcKShWUS65q9dMCZcosf18AVZccy6mENFS1AY">
+</div>
+</div>
+</div>
+</header>
+<main class="relative z-10 w-full pt-32">
+<div class="flex flex-col w-full">
+<!-- Dynamic Hero Section -->
+<section class="relative min-h-screen flex flex-col justify-center px-margin-mobile lg:px-margin-desktop overflow-visible">
+<div class="max-w-container-max mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-gutter items-center relative perspective-layout" style="transform: perspective(2000px) rotateY(0.28125deg) rotateX(0.317848deg);">
+<!-- Floating Text Micro-section (Current Focus) -->
+<div class="hidden xl:flex absolute top-0 right-0 flex-col gap-6 max-w-[240px] z-30">
+<div class="p-6 rounded-2xl glass-panel border-glow-intense space-y-3 transition-transform duration-500 hover:scale-105">
+<span class="font-label-mono text-[10px] text-primary-fixed uppercase tracking-tighter block font-bold">Fokus Saat Ini</span>
+<p class="text-xs text-on-surface font-body-md leading-relaxed">Mendalami Deep Learning, Machine Learning, &amp; Sistem Cerdas</p>
+</div>
+<div class="p-6 rounded-2xl glass-panel border-glow-intense space-y-3 transition-transform duration-500 hover:scale-105">
+<span class="font-label-mono text-[10px] text-primary-fixed uppercase tracking-tighter block font-bold">Teknologi Pilihan</span>
+<div class="flex flex-wrap gap-2"><span class="px-3 py-1 rounded-full bg-primary-fixed/10 border border-primary-fixed/20 text-primary-fixed text-[10px] font-label-mono font-bold">Python</span><span class="px-3 py-1 rounded-full bg-cyan-400/10 border border-cyan-400/20 text-cyan-400 text-[10px] font-label-mono font-bold">JavaScript</span><span class="px-3 py-1 rounded-full bg-emerald-400/10 border border-emerald-400/20 text-emerald-400 text-[10px] font-label-mono font-bold">Java</span><span class="px-3 py-1 rounded-full bg-primary-fixed/10 border border-primary-fixed/20 text-primary-fixed text-[10px] font-label-mono font-bold">Colab</span></div>
+</div>
+</div>
+<!-- Text Content -->
+<div class="lg:col-span-8 z-20 pointer-events-none lg:-mr-48">
+<div class="flex flex-col items-start space-y-10 pointer-events-auto">
+<div class="inline-flex items-center gap-4 px-6 py-3 rounded-full glass-panel border-glow-intense">
+<span class="relative flex h-3 w-3">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary-fixed opacity-75"></span>
+<span class="relative inline-flex rounded-full h-3 w-3 bg-primary-fixed shadow-[0_0_15px_rgba(202,243,0,1)]"></span>
+</span>
+<span class="font-label-mono text-[11px] uppercase tracking-[0.3em] text-primary-fixed glow-text-primary font-bold">Informatics Engineering - Artificial Intelligence</span>
+</div>
+<div class="space-y-4">
+<h1 class="font-display-lg text-[72px] lg:text-[120px] leading-[0.85] tracking-tighter drop-shadow-[0_20px_40px_rgba(0,0,0,0.6)]">REZAL <br><span class="gradient-accent glow-text-primary filter saturate-150">FAUZIAN</span></h1>
+<p class="font-headline-lg text-2xl lg:text-5xl text-on-surface-variant max-w-2xl leading-tight opacity-90">
+                                Membangun Masa Depan lewat <span class="text-primary italic font-light">Kode</span> dan <span class="text-primary underline decoration-primary-fixed/40 underline-offset-[12px] font-bold">Inovasi.</span>
+</p>
+</div>
+<div class="flex flex-wrap gap-8 pt-6">
+<a class="cta-pulse group relative px-12 py-6 bg-transparent text-on-primary font-label-mono text-sm uppercase tracking-widest rounded-full overflow-hidden transition-all hover:scale-110 active:scale-95 shadow-[0_25px_60px_rgba(202,243,0,0.2)]" href="#">
+<span class="relative z-10 flex items-center gap-4 font-black">
+                                    Lihat Proyek
+                                    <span class="material-symbols-outlined text-xl transition-transform group-hover:translate-x-2">arrow_forward</span>
+</span>
+</a>
+<a class="group relative px-12 py-6 border border-white/10 text-on-surface font-label-mono text-sm uppercase tracking-widest rounded-full hover:border-cyan-400/50 backdrop-blur-xl transition-all shadow-xl hover:shadow-cyan-400/10 flex items-center" href="#">
+<span class="relative z-10">Hubungi Saya</span>
+<div class="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity rounded-full"></div>
+</a>
+</div>
+</div>
+</div>
+<!-- Visual Element -->
+<div class="lg:col-span-4 relative mt-24 lg:mt-0 z-10">
+<div class="relative w-full max-w-[550px] mx-auto three-d-card" style="transform: rotateX(-16.8891deg) rotateY(-10.192663deg) translateZ(10px);">
+<!-- Scanning Overlay -->
+<div class="scanning-line"></div>
+<!-- Floating Decorations -->
+<div class="absolute -top-16 -right-12 w-48 h-48 bg-cyan-400/15 blur-[100px] rounded-full"></div>
+<div class="absolute -top-8 -left-8 px-5 py-4 glass-panel rounded-2xl z-30 flex items-center gap-4 shadow-3xl animate-bounce [animation-duration:6s] border-glow-intense">
+<div class="bg-primary-fixed/20 p-2 rounded-lg">
+<span class="material-symbols-outlined text-primary-fixed text-3xl">terminal</span>
+</div>
+<div class="flex flex-col">
+<span class="text-[10px] font-label-mono text-white tracking-[0.2em] font-black">SYSTEM ACTIVE</span>
+<span class="text-[9px] text-primary-fixed/70 uppercase">Core Processor 100%</span>
+</div>
+</div>
+<div class="absolute -bottom-12 -right-8 px-8 py-6 glass-panel rounded-3xl z-30 flex flex-col gap-2 shadow-[0_40px_80px_rgba(0,0,0,0.8)] border-glow-intense">
+<span class="font-label-mono text-[9px] text-on-surface-variant uppercase tracking-[0.3em] font-bold">Efficiency Rate</span>
+<div class="flex items-end gap-4">
+<span class="text-4xl font-bold gradient-accent tracking-tighter">99.9%</span>
+<div class="flex gap-2 mb-2">
+<div class="w-2 h-6 bg-primary-fixed rounded-full animate-pulse"></div>
+<div class="w-2 h-10 bg-cyan-400 rounded-full animate-pulse [animation-delay:0.2s]"></div>
+<div class="w-2 h-8 bg-emerald-400 rounded-full animate-pulse [animation-delay:0.4s]"></div>
+</div>
+</div>
+</div>
+<!-- Main Visual Container -->
+<div class="relative aspect-[4/5.5] rounded-[2.5rem] overflow-hidden border border-white/20 shadow-[0_80px_160px_rgba(0,0,0,0.9)] group">
+<img alt="Farhan Naufal Visual" class="w-full h-full object-cover brightness-90 contrast-125 group-hover:grayscale-0 group-hover:scale-105 transition-all duration-[1.5s] ease-out" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBgUJdVPDD0bA9XqsNz_in21_1y0aoY4aOToUhsiolFsteWcLKAMGMVduc583u6EFT0u4e4HYCORVSsaoUWiyATU3TRpwnziDQgw6f56zsvHiDj8_AF6a8J5rB1etW5_eVRag06BSWzHJpUmX9i7_x7sHdBTIuCpJeOTObAstgQSSkR5M7n2qPbXK6VMfd3zY3fUDEbaYpOAzjM-sbiqim_g3dOTCTaSM8u99uMaEpy25kQoid_PoMTE-H4xEBaY8FZvR291icGl6db">
+<div class="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent opacity-95"></div>
+<div class="absolute inset-0 border-[24px] border-white/5 rounded-[2.5rem] pointer-events-none"></div>
+<!-- Holographic Grain/Noise Overlay -->
+<div class="absolute inset-0 opacity-[0.03] pointer-events-none mix-blend-overlay bg-[url('https://grainy-gradients.vercel.app/noise.svg')]"></div>
+<!-- Depth Glow -->
+<div class="absolute inset-0 opacity-40 bg-[radial-gradient(circle_at_center,rgba(0,242,254,0.3)_0%,transparent_70%)] pointer-events-none group-hover:opacity-60 transition-opacity"></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Stats Micro-Bento -->
+<section class="w-full max-w-container-max mx-auto px-margin-mobile lg:px-margin-desktop py-40 relative z-20"><div class="relative w-full rounded-2xl glass-panel border-glow-intense overflow-hidden shadow-2xl group three-d-card"><div class="scanning-line"></div><div class="relative aspect-[16/9] md:aspect-[21/9] w-full overflow-hidden"><img alt="Futuristic glowing 3D technology display banner" class="w-full h-full object-cover brightness-90 contrast-125 group-hover:scale-105 transition-all duration-[1.5s] ease-out" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBPtbfqDPrTHLakypdexNUGDhhyko0RVCJ3yceD0PwLQLrmmMvtUayfk2sVmeA4GYv5yKJOXXYpjs7D8z_iMkf9XgN0sli8k9ewZ7TKep_k1xsKQUS3Hhv2384EqxEpFggSxCv89vsBo8lLaddGjm0KZYy1eYSE98H7ViZtfvQqEj8_UjfAtqBBabmLHTB21RNSG3aCjBlIKe0xnZrykcVy7sdfG9t0BG8xkGxpq0D2Ua76sv7UD6tnEA"><div class="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent opacity-80"></div><div class="absolute inset-0 bg-gradient-to-r from-background/70 via-transparent to-background/70"></div><div class="absolute top-6 left-6 inline-flex items-center gap-3 px-4 py-2 rounded-full glass-panel border border-primary-fixed/20 z-10"><span class="relative flex h-2 w-2"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary-fixed opacity-75"></span><span class="relative inline-flex rounded-full h-2 w-2 bg-primary-fixed"></span></span><span class="font-label-mono text-[10px] uppercase tracking-[0.3em] text-primary-fixed font-bold glow-text-primary">AI &amp; NEURAL ARCHITECTURE</span></div><div class="absolute bottom-6 left-6 right-6 flex flex-wrap items-center justify-between gap-4 z-10"><div class="flex flex-col gap-1"><span class="font-label-mono text-[9px] uppercase tracking-[0.3em] text-cyan-400 font-bold">HOLOGRAPHIC COMPUTING SYSTEM</span><h3 class="font-headline-lg text-lg md:text-2xl font-bold tracking-tight text-white glow-text-primary">Next-Gen Neural Processor &amp; System Core</h3></div><div class="flex items-center gap-2"><span class="px-3 py-1 rounded-full bg-primary-fixed/10 border border-primary-fixed/20 text-primary-fixed text-[10px] font-label-mono font-bold">99.9% INTEGRITY</span><span class="px-3 py-1 rounded-full bg-cyan-400/10 border border-cyan-400/20 text-cyan-400 text-[10px] font-label-mono font-bold">AI CORE ACTIVE</span></div></div></div></div></section>
+<!-- Dynamic Ticker -->
+<div class="w-full bg-gradient-to-r from-primary-fixed via-cyan-400 to-primary-fixed py-10 overflow-hidden flex whitespace-nowrap border-y border-white/20 select-none shadow-[0_0_80px_rgba(202,243,0,0.4)] relative z-20 skew-y-1">
+<div class="flex animate-[scroll_40s_linear_infinite] gap-24 items-center">
+<span class="text-on-primary font-label-mono text-base uppercase tracking-[0.6em] font-black drop-shadow-sm">Innovation Through Code</span>
+<span class="material-symbols-outlined text-on-primary text-3xl">flare</span>
+<span class="text-on-primary font-label-mono text-base uppercase tracking-[0.6em] font-black drop-shadow-sm">Future Ready Design</span>
+<span class="material-symbols-outlined text-on-primary text-3xl">token</span>
+<span class="text-on-primary font-label-mono text-base uppercase tracking-[0.6em] font-black drop-shadow-sm">Scalable Architecture</span>
+<span class="material-symbols-outlined text-on-primary text-3xl">data_thresholding</span>
+</div>
+<div class="flex animate-[scroll_40s_linear_infinite] gap-24 items-center ml-24">
+<span class="text-on-primary font-label-mono text-base uppercase tracking-[0.6em] font-black drop-shadow-sm">Innovation Through Code</span>
+<span class="material-symbols-outlined text-on-primary text-3xl">flare</span>
+<span class="text-on-primary font-label-mono text-base uppercase tracking-[0.6em] font-black drop-shadow-sm">Future Ready Design</span>
+<span class="material-symbols-outlined text-on-primary text-3xl">token</span>
+<span class="text-on-primary font-label-mono text-base uppercase tracking-[0.6em] font-black drop-shadow-sm">Scalable Architecture</span>
+<span class="material-symbols-outlined text-on-primary text-3xl">data_thresholding</span>
+</div>
+</div>
+</div>
+</main>
+<footer class="relative z-20 w-full bg-background/50 backdrop-blur-3xl py-32 border-t border-white/5">
+<div class="max-w-container-max mx-auto px-margin-mobile lg:px-margin-desktop grid grid-cols-1 md:grid-cols-3 gap-16">
+<div class="space-y-8">
+<div class="flex items-center gap-4">
+<img alt="Logo Portofolio" class="h-8 w-auto filter brightness-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAbCrzoRatmqv-Yu7F0k-QgcyixIh8gm5WVPjdOLYUz3C0i9draU2gd4twlqGFEAwI7dcdqF2TEuDRbL1vKyoGsjFdhb9Y74XTTbgiF4kVHQz13-fwK2walACBhqzs2FUINwlQWMjWu54dciVHDBKd9DjAt0nAL1YMTu4hW6fA2hx8WYAj9LZPayAsv1rAEiyKsx6NEVBn3FxMai6WJLxpulkHc7fBbvQN7Gp6V749XL7hpxUukuLrlqg7821FT1S3tmIoP4RqmBBnD">
+<span class="font-headline-lg text-xl font-bold glow-text-primary gradient-accent uppercase tracking-wider">REZAL FAUZIAN</span>
+</div>
+<p class="text-on-surface-variant text-base font-body-md leading-relaxed max-w-sm">Mahasiswa yang berdedikasi membangun pengalaman digital di persimpangan antara keunggulan akademik dan teknologi modern yang adaptif.</p>
+</div>
+<div class="space-y-8">
+<h4 class="font-label-mono text-[11px] uppercase tracking-[0.4em] text-primary-fixed mb-6 font-black">Navigasi Cepat</h4>
+<nav class="flex flex-col gap-4 font-body-md text-sm">
+<a class="text-on-surface-variant hover:text-primary-fixed transition-all hover:translate-x-2" href="#">Kebijakan Privasi</a>
+<a class="text-on-surface-variant hover:text-primary-fixed transition-all hover:translate-x-2" href="#">Unduh Resume</a>
+<a class="text-on-surface-variant hover:text-primary-fixed transition-all hover:translate-x-2" href="#">Open Source</a>
+</nav>
+</div>
+<div class="space-y-8">
+<h4 class="font-label-mono text-[11px] uppercase tracking-[0.4em] text-primary-fixed mb-6 font-black">Hubungkan</h4>
+<div class="flex gap-5 mb-8">
+<a class="w-14 h-14 rounded-2xl glass-panel flex items-center justify-center text-on-surface-variant hover:bg-primary-fixed hover:text-on-primary hover:scale-110 transition-all shadow-2xl border-glow-intense" href="#"><span class="material-symbols-outlined text-2xl">alternate_email</span></a>
+<a class="w-14 h-14 rounded-2xl glass-panel flex items-center justify-center text-on-surface-variant hover:bg-cyan-400 hover:text-on-primary hover:scale-110 transition-all shadow-2xl border-glow-intense" href="#"><span class="material-symbols-outlined text-2xl">link</span></a>
+<a class="w-14 h-14 rounded-2xl glass-panel flex items-center justify-center text-on-surface-variant hover:bg-emerald-400 hover:text-on-primary hover:scale-110 transition-all shadow-2xl border-glow-intense" href="#"><span class="material-symbols-outlined text-2xl">share</span></a>
+</div>
+<div class="p-4 rounded-xl glass-panel inline-block border-glow-intense">
+<p class="text-primary-fixed text-xs font-label-mono font-black tracking-widest uppercase">hello@farhannaufal.com</p>
+</div>
+</div>
+</div>
+<div class="max-w-container-max mx-auto px-margin-mobile lg:px-margin-desktop mt-24 pt-12 border-t border-white/10 text-center">
+<p class="text-on-surface-variant text-[10px] font-label-mono uppercase tracking-[0.5em] opacity-50">© 2024 PORTFOLIO CORE. BUILT WITH INTENT &amp; HIGH FIDELITY.</p>
+</div>
+</footer>
+<style>
+    @keyframes scroll {
+        0% { transform: translateX(0); }
+        100% { transform: translateX(-50%); }
+    }
+</style>
+<script>
+    // Counter Animation
+    const observerOptions = { threshold: 0.1 };
+    const counterObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const counter = entry.target;
+                const target = parseInt(counter.getAttribute('data-target'));
+                let count = 0;
+                const duration = 2500;
+                const startTime = performance.now();
+
+                const updateCount = (currentTime) => {
+                    const elapsed = currentTime - startTime;
+                    const progress = Math.min(elapsed / duration, 1);
+                    // Ease out cubic
+                    const easeProgress = 1 - Math.pow(1 - progress, 3);
+                    
+                    counter.innerText = Math.floor(easeProgress * target);
+                    
+                    if (progress < 1) {
+                        requestAnimationFrame(updateCount);
+                    } else {
+                        counter.innerText = target;
+                    }
+                };
+                requestAnimationFrame(updateCount);
+                counterObserver.unobserve(counter);
+            }
+        });
+    }, observerOptions);
+    document.querySelectorAll('.counter').forEach(counter => counterObserver.observe(counter));
+
+    // Advanced Mouse Interaction
+    document.addEventListener('mousemove', (e) => {
+        const moveX = (e.clientX - window.innerWidth / 2) / (window.innerWidth / 2);
+        const moveY = (e.clientY - window.innerHeight / 2) / (window.innerHeight / 2);
+        
+        const visualCards = document.querySelectorAll('.three-d-card');
+        visualCards.forEach(card => {
+            const rect = card.getBoundingClientRect();
+            const cardCenterX = rect.left + rect.width / 2;
+            const cardCenterY = rect.top + rect.height / 2;
+            
+            const cardMoveX = (e.clientX - cardCenterX) * 0.02;
+            const cardMoveY = (e.clientY - cardCenterY) * 0.02;
+            
+            card.style.transform = `rotateX(${-cardMoveY}deg) rotateY(${cardMoveX}deg) translateZ(10px)`;
+        });
+
+        const shapes = document.querySelectorAll('.floating-shape');
+        shapes.forEach((shape, index) => {
+            const depth = (index + 1) * 30;
+            shape.style.transform = `translate(${moveX * depth}px, ${moveY * depth}px)`;
+        });
+        
+        // Dynamic perspective shift for main container
+        const perspectiveLayout = document.querySelector('.perspective-layout');
+        if (perspectiveLayout) {
+            perspectiveLayout.style.transform = `perspective(2000px) rotateY(${moveX * -1.5}deg) rotateX(${moveY * 1.5}deg)`;
+        }
+    });
+</script>
+
+
+
+
+
+
+
+
+
+
+</body></html>

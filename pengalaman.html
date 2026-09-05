@@ -1,0 +1,553 @@
+<!DOCTYPE html><html lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Geist:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<style>
+        @layer base {
+            html, body {
+                margin: 0;
+                padding: 0;
+                background-color: #0c0f10;
+            }
+            body {
+                overscroll-behavior: none;
+            }
+            main > :first-child {
+                margin-top: 0 !important;
+            }
+            main > :last-child {
+                margin-bottom: 0 !important;
+            }
+        }
+        ::-webkit-scrollbar {
+            display: none;
+        }
+        .perspective-2000 {
+            perspective: 2000px;
+        }
+        .transform-3d {
+            transform-style: preserve-3d;
+        }
+        .elevated-card {
+            transition: transform 0.6s cubic-bezier(0.2, 0, 0.2, 1), box-shadow 0.6s ease;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4), inset 0 1px 1px rgba(255,255,255,0.05);
+        }
+        .elevated-card:hover {
+            transform: translateZ(40px) rotateX(1deg);
+            box-shadow: 
+                0 40px 80px rgba(0,0,0,0.7), 
+                inset 0 1px 1px rgba(255,255,255,0.1),
+                0 0 40px rgba(202, 243, 0, 0.05);
+        }
+        .energy-beam {
+            background: linear-gradient(to bottom, #caf300 0%, #caf300 10%, rgba(202, 243, 0, 0.1) 50%, #caf300 90%, #caf300 100%);
+            box-shadow: 0 0 15px #caf300, 0 0 30px rgba(202, 243, 0, 0.3);
+            width: 2px;
+        }
+        .metallic-finish {
+            background: linear-gradient(135deg, #caf300 0%, #ffffff 50%, #b0d500 100%);
+            box-shadow: 0 4px 15px rgba(202,243,0,0.4), inset 0 2px 2px rgba(255,255,255,0.8), inset 0 -2px 2px rgba(0,0,0,0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        .metallic-finish::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.3), transparent);
+            transform: rotate(45deg);
+            animation: shine 3s infinite;
+        }
+        @keyframes shine {
+            0% { transform: translateX(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) rotate(45deg); }
+        }
+        .btn-3d {
+            box-shadow: 0 6px 0 #3e4c00, 0 12px 20px rgba(0,0,0,0.4);
+            transform: translateY(-2px);
+            transition: all 0.1s ease;
+        }
+        .btn-3d:active {
+            box-shadow: 0 2px 0 #3e4c00, 0 4px 10px rgba(0,0,0,0.4);
+            transform: translateY(2px);
+        }
+        .btn-3d-secondary {
+            box-shadow: 0 6px 0 rgba(202,243,0,0.2), 0 12px 20px rgba(0,0,0,0.4);
+            transform: translateY(-2px);
+            transition: all 0.1s ease;
+        }
+        .btn-3d-secondary:active {
+            box-shadow: 0 2px 0 rgba(202,243,0,0.2), 0 4px 10px rgba(0,0,0,0.4);
+            transform: translateY(2px);
+        }
+        .grid-bg {
+            background-image: linear-gradient(rgba(202, 243, 0, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(202, 243, 0, 0.05) 1px, transparent 1px);
+            background-size: 50px 50px;
+        }
+        .parallax-element {
+            transition: transform 0.2s cubic-bezier(0.03, 0.98, 0.52, 0.99);
+        }
+        .frame-glow {
+            box-shadow: 0 0 0 1px rgba(255,255,255,0.1), 0 20px 50px rgba(0,0,0,0.5);
+            transition: all 0.6s ease;
+        }
+        .group:hover .frame-glow {
+            box-shadow: 0 0 0 1px rgba(202, 243, 0, 0.3), 0 30px 60px rgba(202, 243, 0, 0.1);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            display: block;
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(255,255,255,0.05);
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #caf300;
+            border-radius: 10px;
+        }
+    </style>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "error-container": "#93000a",
+                        "surface-container-lowest": "#0c0f10",
+                        "tertiary-fixed-dim": "#bdc7d9",
+                        "surface-dim": "#111415",
+                        "inverse-surface": "#e1e3e4",
+                        "on-tertiary-fixed": "#121c2a",
+                        "background": "#0c0f10",
+                        "on-secondary-fixed-variant": "#43474e",
+                        "surface-bright": "#373a3b",
+                        "tertiary-container": "#d9e3f6",
+                        "on-secondary": "#2d3137",
+                        "on-tertiary-container": "#5b6575",
+                        "secondary-fixed-dim": "#c3c6cf",
+                        "surface-variant": "#323536",
+                        "secondary-container": "#454950",
+                        "surface-container": "#1d2021",
+                        "primary": "#ffffff",
+                        "on-primary-fixed-variant": "#3e4c00",
+                        "on-primary-fixed": "#171e00",
+                        "on-tertiary": "#27313f",
+                        "tertiary": "#ffffff",
+                        "on-primary-container": "#596c00",
+                        "tertiary-fixed": "#d9e3f6",
+                        "surface": "#111415",
+                        "on-tertiary-fixed-variant": "#3d4756",
+                        "on-error-container": "#ffdad6",
+                        "primary-container": "#caf300",
+                        "primary-fixed-dim": "#b0d500",
+                        "on-secondary-fixed": "#181c22",
+                        "surface-tint": "#b0d500",
+                        "error": "#ffb4ab",
+                        "on-background": "#e1e3e4",
+                        "secondary": "#c3c6cf",
+                        "surface-container-high": "#282a2b",
+                        "on-error": "#690005",
+                        "on-surface": "#e1e3e4",
+                        "secondary-fixed": "#dfe2eb",
+                        "outline-variant": "#444932",
+                        "inverse-on-surface": "#2e3132",
+                        "on-surface-variant": "#c5c9ac",
+                        "surface-container-low": "#191c1d",
+                        "on-primary": "#2a3400",
+                        "inverse-primary": "#536600",
+                        "on-secondary-container": "#b5b8c1",
+                        "outline": "#8f9378",
+                        "primary-fixed": "#caf300",
+                        "surface-container-highest": "#323536"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "24px",
+                        "container-max": "1280px",
+                        "margin-mobile": "16px",
+                        "margin-desktop": "64px",
+                        "unit": "8px"
+                    },
+                    "fontFamily": {
+                        "headline-lg-mobile": ["Space Grotesk"],
+                        "headline-xl": ["Space Grotesk"],
+                        "headline-lg": ["Space Grotesk"],
+                        "label-mono": ["JetBrains Mono"],
+                        "body-md": ["Geist"],
+                        "display-lg": ["Space Grotesk"],
+                        "body-lg": ["Geist"]
+                    },
+                    "fontSize": {
+                        "headline-lg-mobile": ["28px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                        "headline-xl": ["48px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "headline-lg": ["32px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                        "label-mono": ["14px", {"lineHeight": "1.2", "fontWeight": "500"}],
+                        "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                        "display-lg": ["72px", {"lineHeight": "1.1", "letterSpacing": "-0.04em", "fontWeight": "700"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background font-body-md text-on-surface antialiased grid-bg">
+<header class="fixed top-6 left-1/2 -translate-x-1/2 w-[calc(100%-2*theme(spacing.margin-mobile))] max-w-container-max z-50 bg-surface-container/60 backdrop-blur-xl border border-white/10 rounded-full px-6 lg:px-8 shadow-2xl">
+<div class="h-16 flex items-center justify-between gap-4">
+<div class="flex items-center gap-3">
+<img alt="Logo Portofolio" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAbCrzoRatmqv-Yu7F0k-QgcyixIh8gm5WVPjdOLYUz3C0i9draU2gd4twlqGFEAwI7dcdqF2TEuDRbL1vKyoGsjFdhb9Y74XTTbgiF4kVHQz13-fwK2walACBhqzs2FUINwlQWMjWu54dciVHDBKd9DjAt0nAL1YMTu4hW6fA2hx8WYAj9LZPayAsv1rAEiyKsx6NEVBn3FxMai6WJLxpulkHc7fBbvQN7Gp6V749XL7hpxUukuLrlqg7821FT1S3tmIoP4RqmBBnD">
+<span class="font-headline-lg text-body-lg tracking-tight font-bold hidden sm:block">REZAL FAUZIAN</span>
+</div>
+<nav class="hidden lg:flex items-center gap-6 font-label-mono text-xs uppercase tracking-widest" data-active-classes="text-primary-container font-semibold">
+<a class="text-on-surface-variant hover:text-primary transition-colors" data-path="home" href="index.html">Home</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors" data-path="about" href="tentang.html">About</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors" data-path="projects" href="proyek.html">Projects</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors" data-path="certificates" href="sertifikat.html">Certificates</a>
+<a aria-current="page" class="transition-colors text-primary-container font-semibold" data-path="experience" href="pengalaman.html">Experience</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors" data-path="skills" href="keahlian.html">Skills</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors" data-path="contact" href="kontak.html">Contact</a>
+</nav>
+<div class="flex items-center gap-4">
+<button class="lg:hidden text-on-surface"><span class="material-symbols-outlined">menu</span></button>
+<img alt="Profile" class="w-8 h-8 rounded-full border border-primary-container/20 object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCjQJS4Z4KaGglZq4JEBzR2NWx7EPQ_mABsDe2GDnIv0aDkP5XDBKzyjTJrKleZkuMvoyuKR4o5VNAY-disFf9jj6y7nTcZJ_iMY2WASvMsHLaKBaTQnxByDEZ9Rfj7N8iHpL_EhEwgrwpv6Ay1ZHxBrZu0XVGDk6fU7dIdlmsZz_i_wyithqgjFf0Wzht0l18KTGm03SciPIOX_V1J3SutipL2wdB6AIOAEXl0hNoAI8nfrQqE_PDS_sO7l16580KUfkQ">
+</div>
+</div>
+</header>
+<main class="w-full pt-32 bg-background">
+<div class="flex flex-col w-full">
+<!-- Hero Header Section -->
+<section class="relative px-margin-mobile lg:px-margin-desktop py-32 overflow-hidden">
+<div class="absolute top-0 right-0 -translate-y-1/2 translate-x-1/4 w-[800px] h-[800px] bg-primary-container/10 rounded-full blur-[160px]"></div>
+<div class="relative z-10 max-w-container-max mx-auto">
+<div class="flex flex-col gap-6">
+<span class="font-label-mono text-primary-fixed tracking-[0.3em] uppercase text-sm">Professional Odyssey</span>
+<h1 class="font-display-lg text-display-lg text-primary max-w-4xl leading-[0.9] lg:text-[140px] tracking-tight">
+                            ARCHITECTING <br> <span class="text-surface-variant outline-text" style="-webkit-text-stroke: 1px rgba(255,255,255,0.3); color: transparent;">DIGITAL</span> SYSTEMS
+                        </h1>
+</div>
+</div>
+</section>
+<!-- Experience & Timeline Section -->
+<section class="px-margin-mobile lg:px-margin-desktop pb-48 perspective-2000">
+<div class="max-w-container-max mx-auto">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-16">
+<!-- Left Column: Sticky Summary -->
+<div class="lg:col-span-4 lg:sticky lg:top-32 self-start space-y-16">
+<div class="space-y-8">
+<div class="h-px w-24 bg-primary-fixed shadow-[0_0_15px_#caf300]"></div>
+<p class="font-body-lg text-on-surface-variant max-w-sm text-xl leading-relaxed">
+                                    A chronicle of technical leadership, rapid development cycles, and competitive innovation.
+                                </p>
+</div>
+<!-- Stats / Mini Data Viz -->
+<div class="grid grid-cols-1 gap-8 transform-3d">
+<div class="p-10 elevated-card bg-surface-container rounded-3xl border border-white/5 metallic-finish group">
+<span class="block font-headline-xl text-[64px] text-on-primary-fixed mb-2 counter relative z-10" data-target="40">40%</span>
+<span class="font-label-mono text-xs uppercase tracking-widest text-on-primary-fixed/80 relative z-10">Performance Increase</span>
+</div>
+<div class="p-10 elevated-card bg-surface-container rounded-3xl border border-white/5 metallic-finish group">
+<span class="block font-headline-xl text-[64px] text-on-primary-fixed mb-2 relative z-10">01</span>
+<span class="font-label-mono text-xs uppercase tracking-widest text-on-primary-fixed/80 relative z-10">National Award</span>
+</div>
+</div>
+</div>
+<!-- Right Column: Timeline -->
+<div class="lg:col-span-8 space-y-48 transform-3d">
+<!-- Internship -->
+<div class="relative group elevated-card rounded-[40px] p-10 lg:p-16 bg-surface-container-low border border-white/5 hover:border-primary-fixed/20" style="transform: perspective(2000px) rotateX(0deg) rotateY(0deg) translateZ(0px);">
+<div class="absolute -left-6 lg:-left-20 top-0 bottom-0 energy-beam opacity-40 group-hover:opacity-100 transition-opacity"></div>
+<div class="absolute -left-[30px] lg:-left-[62px] top-16 w-8 h-8 rounded-full bg-background border-4 border-primary-fixed shadow-[0_0_20px_#caf300] transition-transform group-hover:scale-150 z-20"></div>
+<div class="flex flex-col gap-10 transform-3d">
+<div class="flex flex-wrap items-center justify-between gap-8">
+<div class="parallax-element" style="transform: translateZ(50px) translateX(0px) translateY(0px);">
+
+<h3 class="font-headline-xl text-primary text-4xl lg:text-7xl leading-none">Web Developer</h3>
+<p class="font-body-md text-on-surface-variant text-xl mt-2">Tech Solutions</p>
+</div>
+<div class="w-20 h-20 rounded-2xl bg-surface-container-high flex items-center justify-center shadow-[inset_0_2px_10px_rgba(0,0,0,0.5)] border border-white/5">
+<span class="material-symbols-outlined text-primary-fixed text-4xl">code_blocks</span>
+</div>
+</div>
+<div class="relative overflow-hidden rounded-[32px] aspect-[16/9] frame-glow group-hover:translate-z-20 transition-all">
+<img class="w-full h-full object-cover opacity-70 group-hover:scale-110 transition-transform duration-[2000ms]" data-alt="A futuristic dark-themed office environment with high-end computer monitors showing lines of code. The lighting is dominated by electric lime green neon accents and sleek minimalist furniture. Photorealistic, cinematic lighting, wide-angle lens." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDgWSf29bedDCncSRRJhgbXWIq_bYWpDZDiRtx-ZyJI0Boe46nYzQOnZPfLracqN57t6lWcI3rBRMPh-VSdSdsMuf_g62FlQ0pbC3E_xAKg4MgLL1eZdUW5nxeIGoQcRTdffLXBTL9QYf4hcPJ0GmvXBg5IQOzql6jq0wQmAJvpMKFrjorjb9jI1TJb6JTyHZgpkGgu8moyOaBFUqsuvNhyCQNhKGHW_l1-El6ojFkhC_4nZm0zwqRaEkmWOAedzse13b6q0T6uJuyF">
+<div class="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent"></div>
+<div class="absolute bottom-8 left-8 right-8">
+<div class="flex items-center gap-6">
+<div class="px-6 py-3 metallic-finish text-on-primary-fixed rounded-xl font-bold text-3xl leading-none">+40%</div>
+<p class="font-body-md text-primary font-bold text-xl drop-shadow-[0_4px_12px_rgba(0,0,0,0.8)]">Loading Speed Optimization</p>
+</div>
+</div>
+</div>
+<p class="font-body-md text-on-surface-variant leading-relaxed text-xl lg:text-2xl max-w-3xl">
+                                        Engineered performance-critical components using React and Next.js. Refactored legacy image processing pipelines and implemented aggressive caching strategies, resulting in a measurable 40% reduction in First Contentful Paint.
+                                    </p>
+</div>
+</div>
+<!-- Organization: Replaced and Expanded -->
+<div class="relative group elevated-card rounded-[40px] p-10 lg:p-16 bg-surface-container-low border border-white/5 hover:border-primary-fixed/20" style="transform: perspective(2000px) rotateX(0deg) rotateY(0deg) translateZ(0px);">
+<div class="absolute -left-6 lg:-left-20 top-0 bottom-0 energy-beam opacity-20 group-hover:opacity-60 transition-opacity"></div>
+<div class="absolute -left-[30px] lg:-left-[62px] top-16 w-8 h-8 rounded-full bg-background border-4 border-primary-fixed/50 shadow-[0_0_10px_rgba(202,243,0,0.3)] transition-transform group-hover:scale-150 z-20"></div>
+<div class="flex flex-col gap-10 transform-3d">
+<div class="parallax-element" style="transform: translateZ(30px) translateX(0px) translateY(0px);">
+
+<h3 class="font-headline-xl text-primary text-4xl lg:text-7xl leading-none">Pengalaman Organisasi</h3>
+<p class="font-body-md text-on-surface-variant text-xl mt-2">Leadership &amp; Community Engagement</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4 pr-4 custom-scrollbar">
+    <!-- Item 1 -->
+    <div class="p-4 rounded-2xl bg-surface-container border border-white/5 hover:bg-surface-container-high transition-all flex flex-col gap-2 group/item">
+        <div class="flex justify-between items-start">
+            <span class="material-symbols-outlined text-primary-fixed text-2xl">groups</span>
+            <span class="font-label-mono text-[10px] text-primary-fixed bg-primary-fixed/10 px-2 py-0.5 rounded-full">2025/2026</span>
+        </div>
+        <h4 class="font-headline-lg text-primary text-sm leading-tight">Vice Chairman - Informatics Engineering Student Association</h4>
+        <p class="font-body-md text-on-surface-variant text-xs leading-relaxed">Executive Leadership: Directed strategies, managed operations. Program Synchronization: Supervised symposiums.</p>
+    </div>
+    <!-- Item 2 -->
+    <div class="p-4 rounded-2xl bg-surface-container border border-white/5 hover:bg-surface-container-high transition-all flex flex-col gap-2 group/item">
+        <div class="flex justify-between items-start">
+            <span class="material-symbols-outlined text-primary-fixed text-2xl">hub</span>
+            <span class="font-label-mono text-[10px] text-primary-fixed bg-primary-fixed/10 px-2 py-0.5 rounded-full">2024/2025</span>
+        </div>
+        <h4 class="font-headline-lg text-primary text-sm leading-tight">Vice President of Restex</h4>
+        <p class="font-body-md text-on-surface-variant text-xs leading-relaxed">Organizational Growth: Co-managed initiatives. Strategic Execution: Directed projects, led mentoring.</p>
+    </div>
+    <!-- Item 3 -->
+    <div class="p-4 rounded-2xl bg-surface-container border border-white/5 hover:bg-surface-container-high transition-all flex flex-col gap-2 group/item">
+        <div class="flex justify-between items-start">
+            <span class="material-symbols-outlined text-primary-fixed text-2xl">newspaper</span>
+            <span class="font-label-mono text-[10px] text-primary-fixed bg-primary-fixed/10 px-2 py-0.5 rounded-full">2024/2025</span>
+        </div>
+        <h4 class="font-headline-lg text-primary text-sm leading-tight">Journalist Reporter at Nuansa</h4>
+        <p class="font-body-md text-on-surface-variant text-xs leading-relaxed">Investigative Coverage: Covered campus events. Digital Storytelling: Produced reports.</p>
+    </div>
+    <!-- Item 4 -->
+    <div class="p-4 rounded-2xl bg-surface-container border border-white/5 hover:bg-surface-container-high transition-all flex flex-col gap-2 group/item">
+        <div class="flex justify-between items-start">
+            <span class="material-symbols-outlined text-primary-fixed text-2xl">volunteer_activism</span>
+            <span class="font-label-mono text-[10px] text-primary-fixed bg-primary-fixed/10 px-2 py-0.5 rounded-full">2023/2024</span>
+        </div>
+        <h4 class="font-headline-lg text-primary text-sm leading-tight">West Java Student Council Forum - Osis Care</h4>
+        <p class="font-body-md text-on-surface-variant text-xs leading-relaxed">Regional Impact: Initiated campaigns. Network Coordination: Facilitated youth forums.</p>
+    </div>
+    <!-- Item 5 -->
+    <div class="p-4 rounded-2xl bg-surface-container border border-white/5 hover:bg-surface-container-high transition-all flex flex-col gap-2 group/item">
+        <div class="flex justify-between items-start">
+            <span class="material-symbols-outlined text-primary-fixed text-2xl">school</span>
+            <span class="font-label-mono text-[10px] text-primary-fixed bg-primary-fixed/10 px-2 py-0.5 rounded-full">2023/2024</span>
+        </div>
+        <h4 class="font-headline-lg text-primary text-sm leading-tight">Sukabumi Regency Student Council Forum Reg. V</h4>
+        <p class="font-body-md text-on-surface-variant text-xs leading-relaxed">Educational Outreach: Designed workshops. Social Campaign Execution: Coordinated forums.</p>
+    </div>
+    <!-- Item 6 -->
+    <div class="p-4 rounded-2xl bg-surface-container border border-white/5 hover:bg-surface-container-high transition-all flex flex-col gap-2 group/item">
+        <div class="flex justify-between items-start">
+            <span class="material-symbols-outlined text-primary-fixed text-2xl">campaign</span>
+            <span class="font-label-mono text-[10px] text-primary-fixed bg-primary-fixed/10 px-2 py-0.5 rounded-full">2022/2023</span>
+        </div>
+        <h4 class="font-headline-lg text-primary text-sm leading-tight">Student Council of SMAN 1 Cikidang - Public Relations &amp; Communication</h4>
+        <p class="font-body-md text-on-surface-variant text-xs leading-relaxed">Digital Communications: Managed social media. Content Strategy: Created digital campaigns.</p>
+    </div>
+    <!-- Item 7 -->
+    <div class="p-4 rounded-2xl bg-surface-container border border-white/5 hover:bg-surface-container-high transition-all flex flex-col gap-2 group/item">
+        <div class="flex justify-between items-start">
+            <span class="material-symbols-outlined text-primary-fixed text-2xl">terminal</span>
+            <span class="font-label-mono text-[10px] text-primary-fixed bg-primary-fixed/10 px-2 py-0.5 rounded-full">2023/2024</span>
+        </div>
+        <h4 class="font-headline-lg text-primary text-sm leading-tight">Head of GENETIK</h4>
+        <p class="font-body-md text-on-surface-variant text-xs leading-relaxed">Club Directorship: Led community operations. Collaborative Tech Initiatives: Spearheaded IT projects.</p>
+    </div>
+    <!-- Item 8 -->
+    <div class="p-4 rounded-2xl bg-surface-container border border-white/5 hover:bg-surface-container-high transition-all flex flex-col gap-2 group/item">
+        <div class="flex justify-between items-start">
+            <span class="material-symbols-outlined text-primary-fixed text-2xl">palette</span>
+            <span class="font-label-mono text-[10px] text-primary-fixed bg-primary-fixed/10 px-2 py-0.5 rounded-full">2021/2022</span>
+        </div>
+        <h4 class="font-headline-lg text-primary text-sm leading-tight">Student Council of SMAN 1 Cikidang - ICT and Arts Development</h4>
+        <p class="font-body-md text-on-surface-variant text-xs leading-relaxed">Tech &amp; Arts Integration: Integrated digital tools. Creative Support: Maintained hardware/software.</p>
+    </div>
+    <!-- Item 9 -->
+    <div class="p-4 rounded-2xl bg-surface-container border border-white/5 hover:bg-surface-container-high transition-all flex flex-col gap-2 group/item">
+        <div class="flex justify-between items-start">
+            <span class="material-symbols-outlined text-primary-fixed text-2xl">workspace_premium</span>
+            <span class="font-label-mono text-[10px] text-primary-fixed bg-primary-fixed/10 px-2 py-0.5 rounded-full">2019/2020</span>
+        </div>
+        <h4 class="font-headline-lg text-primary text-sm leading-tight">President of the Student Council at SMPN 3 Cikidang</h4>
+        <p class="font-body-md text-on-surface-variant text-xs leading-relaxed">Chief Student Officer: Directed body. Event Orchestration: Supervised workflows.</p>
+    </div>
+    <!-- Item 10 -->
+    <div class="p-4 rounded-2xl bg-surface-container border border-white/5 hover:bg-surface-container-high transition-all flex flex-col gap-2 group/item">
+        <div class="flex justify-between items-start">
+            <span class="material-symbols-outlined text-primary-fixed text-2xl">admin_panel_settings</span>
+            <span class="font-label-mono text-[10px] text-primary-fixed bg-primary-fixed/10 px-2 py-0.5 rounded-full">2018/2019</span>
+        </div>
+        <h4 class="font-headline-lg text-primary text-sm leading-tight">Vice President of the Student Council at SMPN 3 Cikidang</h4>
+        <p class="font-body-md text-on-surface-variant text-xs leading-relaxed">Executive Support: Assisted president. Operational Oversight: Managed communication.</p>
+    </div>
+</div>
+</div>
+</div>
+<!-- Achievement -->
+<div class="relative group elevated-card rounded-[40px] p-1 bg-gradient-to-br from-primary-fixed/40 via-transparent to-primary-fixed/10 mt-48" style="transform: perspective(2000px) rotateX(0deg) rotateY(0deg) translateZ(0px);">
+<div class="absolute -left-6 lg:-left-20 top-0 bottom-0 energy-beam opacity-40 group-hover:opacity-100 transition-opacity"></div>
+<div class="absolute -left-[30px] lg:-left-[62px] top-16 w-8 h-8 rounded-full bg-background border-4 border-primary-fixed shadow-[0_0_20px_#caf300] transition-transform group-hover:scale-150 z-20"></div>
+<div class="bg-surface-container-lowest rounded-[39px] p-10 lg:p-16 transform-3d overflow-hidden">
+<div class="absolute top-0 right-0 w-96 h-96 bg-primary-fixed/5 blur-[120px] rounded-full -translate-y-1/2 translate-x-1/4"></div>
+<div class="flex flex-col lg:flex-row lg:items-center gap-12 relative z-10">
+<div class="flex-1 space-y-8 parallax-element" style="transform: translateZ(60px) translateX(0px) translateY(0px);">
+<div class="inline-flex items-center gap-3 px-5 py-2 rounded-full bg-primary-fixed/10 border border-primary-fixed/30 backdrop-blur-md">
+<span class="w-3 h-3 rounded-full bg-primary-fixed animate-pulse"></span>
+<span class="font-label-mono text-xs text-primary-fixed uppercase tracking-widest font-black">PRESTASI NASIONAL</span>
+</div>
+<h3 class="font-headline-xl text-primary text-4xl lg:text-7xl leading-tight font-bold">The Best Desain Grafis</h3>
+<p class="font-body-md text-on-surface-variant text-xl lg:text-2xl leading-relaxed">Recognized for exceptional visual communication and creative execution in a national design competition. Demonstrated mastery in layout, typography, and brand identity systems.</p>
+<div class="flex gap-4 flex-wrap"><span class="px-6 py-2 bg-surface-container-high border border-white/10 rounded-full font-label-mono text-xs text-on-surface-variant tracking-[0.2em] font-bold">BRANDING</span><span class="px-6 py-2 bg-surface-container-high border border-white/10 rounded-full font-label-mono text-xs text-on-surface-variant tracking-[0.2em] font-bold">TYPOGRAPHY</span><span class="px-6 py-2 bg-surface-container-high border border-white/10 rounded-full font-label-mono text-xs text-on-surface-variant tracking-[0.2em] font-bold">VISUALS</span></div>
+</div>
+<div class="lg:w-72 aspect-square relative group/trophy perspective-2000">
+<div class="absolute inset-0 bg-primary-fixed blur-[80px] opacity-20 group-hover/trophy:opacity-50 transition-opacity"></div>
+<div class="frame-glow rounded-3xl bg-surface-container-highest/50 backdrop-blur-sm p-4 w-full h-full">
+<img class="w-full h-full object-contain relative z-10 drop-shadow-[0_30px_60px_rgba(202,243,0,0.5)] transition-all duration-700 group-hover/trophy:rotate-y-20 group-hover/trophy:scale-110" data-alt="A shining silver trophy with a geometric minimalist design, floating in a dark digital void with electric lime green particle effects and data streams. High contrast, Unreal Engine 5 render style, sharp focus." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCss67a5xFIY6yF0jTSDiLi047PMfsGeIRZlkLEVnqOvdCwHKnz0tfAuRuZtqPuJZ3Uuxb8KNsMEZbdzcAbqJrrxs2B6oRItr83_EfKEtc_i-OUICCbXJoNc1AYn1sVsv_fvO9PTGIGTVEq7iEyG039Z0mlOsNtYd0sMeNHn7z0E9bHh-JNNhdBQCoWlZV0kMVF2pIGum1a4B1WRJFBCjjgJslJL1F7YYdVMoAnu0uAuZwBfABy5z6HPQsSGYy6vcohP_4Ouk2XjSSr">
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Bottom CTA / Social Proof -->
+<section class="px-margin-mobile lg:px-margin-desktop py-48 bg-surface-container-lowest border-y border-white/5 relative overflow-hidden">
+<div class="absolute inset-0 grid-bg opacity-30"></div>
+<div class="max-w-container-max mx-auto text-center space-y-20 relative z-10">
+<h2 class="font-headline-xl text-primary text-6xl lg:text-[90px] max-w-4xl mx-auto leading-none tracking-tight">Curiosity is the engine of innovation.</h2>
+
+</div>
+</section>
+</div>
+</main>
+<footer class="w-full bg-background py-32 border-t border-white/10">
+<div class="max-w-container-max mx-auto px-margin-mobile lg:px-margin-desktop grid grid-cols-1 md:grid-cols-3 gap-16">
+<div class="space-y-8">
+<div class="flex items-center gap-4">
+<img alt="Logo Portofolio" class="h-10 w-auto" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAbCrzoRatmqv-Yu7F0k-QgcyixIh8gm5WVPjdOLYUz3C0i9draU2gd4twlqGFEAwI7dcdqF2TEuDRbL1vKyoGsjFdhb9Y74XTTbgiF4kVHQz13-fwK2walACBhqzs2FUINwlQWMjWu54dciVHDBKd9DjAt0nAL1YMTu4hW6fA2hx8WYAj9LZPayAsv1rAEiyKsx6NEVBn3FxMai6WJLxpulkHc7fBbvQN7Gp6V749XL7hpxUukuLrlqg7821FT1S3tmIoP4RqmBBnD">
+<span class="font-headline-lg text-body-lg font-bold tracking-tight">Rezal Fauzian</span>
+</div>
+<p class="text-on-surface-variant text-lg font-body-md max-w-sm leading-relaxed">A passionate student building digital experiences at the intersection of academic excellence and modern tech.</p>
+</div>
+<div class="space-y-8">
+<h4 class="font-label-mono text-sm uppercase tracking-[0.3em] text-primary-fixed mb-6 font-bold">Navigation</h4>
+<nav class="flex flex-col gap-4 font-body-md text-base">
+<a class="text-on-surface-variant hover:text-primary-fixed transition-colors" href="#">Privacy Policy</a>
+<a class="text-on-surface-variant hover:text-primary-fixed transition-colors" href="#">Resume Download</a>
+<a class="text-on-surface-variant hover:text-primary-fixed transition-colors" href="#">Open Source Contributions</a>
+</nav>
+</div>
+<div class="space-y-8">
+<h4 class="font-label-mono text-sm uppercase tracking-[0.3em] text-primary-fixed mb-6 font-bold">Connect</h4>
+<div class="flex gap-6 mb-8">
+<a class="w-14 h-14 rounded-full bg-surface-container flex items-center justify-center text-on-surface-variant hover:bg-primary-container hover:text-on-primary-container transition-all elevated-card border border-white/5" href="#"><span class="material-symbols-outlined text-2xl">alternate_email</span></a>
+<a class="w-14 h-14 rounded-full bg-surface-container flex items-center justify-center text-on-surface-variant hover:bg-primary-container hover:text-on-primary-container transition-all elevated-card border border-white/5" href="#"><span class="material-symbols-outlined text-2xl">link</span></a>
+<a class="w-14 h-14 rounded-full bg-surface-container flex items-center justify-center text-on-surface-variant hover:bg-primary-container hover:text-on-primary-container transition-all elevated-card border border-white/5" href="#"><span class="material-symbols-outlined text-2xl">share</span></a>
+</div>
+<p class="text-on-surface-variant text-sm font-label-mono tracking-widest">rezalofficial732@gmail.com</p>
+</div>
+</div>
+<div class="max-w-container-max mx-auto px-margin-mobile lg:px-margin-desktop mt-32 pt-12 border-t border-white/5 text-center">
+<p class="text-on-surface-variant text-xs font-label-mono opacity-50 uppercase tracking-[0.4em]">© 2024 PORTFOLIO CORE. ARCHITECTED WITH INTENT.</p>
+</div>
+</footer>
+<script>
+        // Simple Intersection Observer for Counter Animation
+        const observerOptions = {
+            threshold: 0.5
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const target = entry.target;
+                    const countTo = parseInt(target.getAttribute('data-target'));
+                    let currentCount = 0;
+                    const duration = 1500; 
+                    const stepTime = Math.abs(Math.floor(duration / countTo));
+                    
+                    const timer = setInterval(() => {
+                        currentCount += 1;
+                        target.innerText = currentCount + (target.innerText.includes('%') || countTo === 40 ? '%' : '');
+                        if (currentCount >= countTo) {
+                            clearInterval(timer);
+                            target.innerText = countTo + (target.innerText.includes('%') || countTo === 40 ? '%' : '');
+                        }
+                    }, stepTime);
+                    
+                    observer.unobserve(target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.counter').forEach(counter => {
+            observer.observe(counter);
+        });
+
+        // Enhanced 3D Tilt Effect for cards with child parallax
+        document.querySelectorAll('.elevated-card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const xPct = (x / rect.width - 0.5) * 15;
+                const yPct = (y / rect.height - 0.5) * -15;
+                
+                card.style.transform = `perspective(2000px) rotateX(${yPct}deg) rotateY(${xPct}deg) translateZ(20px)`;
+                
+                // Parallax children
+                const parallaxEls = card.querySelectorAll('.parallax-element');
+                parallaxEls.forEach(el => {
+                    const style = el.getAttribute('style');
+                    if(style && style.includes('translateZ')) {
+                        const depthMatch = style.match(/translateZ\((\d+)px\)/);
+                        const depth = depthMatch ? parseInt(depthMatch[1]) : 20;
+                        const elXPct = (x / rect.width - 0.5) * (depth / 5);
+                        const elYPct = (y / rect.height - 0.5) * (depth / -5);
+                        el.style.transform = `translateZ(${depth}px) translateX(${elXPct}px) translateY(${elYPct}px)`;
+                    }
+                });
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = `perspective(2000px) rotateX(0deg) rotateY(0deg) translateZ(0)`;
+                const parallaxEls = card.querySelectorAll('.parallax-element');
+                parallaxEls.forEach(el => {
+                    const style = el.getAttribute('style');
+                    if(style && style.includes('translateZ')) {
+                        const depthMatch = style.match(/translateZ\((\d+)px\)/);
+                        const depth = depthMatch ? parseInt(depthMatch[1]) : 20;
+                        el.style.transform = `translateZ(${depth}px) translateX(0) translateY(0)`;
+                    }
+                });
+            });
+        });
+    </script>
+
+
+
+
+
+
+
+
+</body></html>

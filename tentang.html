@@ -1,0 +1,414 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Geist:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+<style>
+        @layer base {
+            html, body {
+                margin: 0;
+                padding: 0;
+                background-color: #0c0f10;
+                scroll-behavior: smooth;
+            }
+            body {
+                overscroll-behavior: none;
+                background-image: 
+                    radial-gradient(circle at 50% -20%, rgba(202, 243, 0, 0.15), transparent 60%),
+                    radial-gradient(circle at 0% 100%, rgba(202, 243, 0, 0.05), transparent 40%);
+            }
+            main > :first-child { margin-top: 0 !important; }
+            main > :last-child { margin-bottom: 0 !important; }
+        }
+        ::-webkit-scrollbar { display: none; }
+
+        .perspective-1000 {
+            perspective: 1000px;
+        }
+
+        .three-d-card {
+            transform-style: preserve-3d;
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease;
+            box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5), inset 0 1px 1px rgba(255,255,255,0.05);
+        }
+        .three-d-card:hover {
+            transform: translateY(-8px) rotateX(4deg) rotateY(-2deg);
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.7), 0 0 20px rgba(202, 243, 0, 0.15);
+        }
+        
+        .translate-z-20 { transform: translateZ(20px); }
+        .translate-z-40 { transform: translateZ(40px); }
+        .translate-z-60 { transform: translateZ(60px); }
+
+        .neon-glow {
+            text-shadow: 0 0 15px rgba(202, 243, 0, 0.5);
+        }
+        .glass-panel {
+            background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.01) 100%);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .floating-3d {
+            animation: float 6s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateZ(40px) translateY(0) rotate(2deg); }
+            50% { transform: translateZ(40px) translateY(-15px) rotate(4deg); }
+        }
+
+        .grid-bg-3d {
+            background-image: 
+                linear-gradient(rgba(202, 243, 0, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(202, 243, 0, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+            transform: perspective(1000px) rotateX(20deg);
+            mask-image: radial-gradient(circle at 50% 50%, black, transparent 80%);
+        }
+
+        .thick-3d-border {
+            border: 8px solid rgba(255, 255, 255, 0.03);
+            box-shadow: 
+                0 0 0 1px rgba(255, 255, 255, 0.1),
+                inset 0 0 20px rgba(0, 0, 0, 0.5),
+                10px 10px 30px rgba(0,0,0,0.4);
+        }
+    </style>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "error-container": "#93000a",
+                        "surface-container-lowest": "#0c0f10",
+                        "tertiary-fixed-dim": "#bdc7d9",
+                        "surface-dim": "#111415",
+                        "inverse-surface": "#e1e3e4",
+                        "on-tertiary-fixed": "#121c2a",
+                        "background": "#0c0f10",
+                        "on-secondary-fixed-variant": "#43474e",
+                        "surface-bright": "#373a3b",
+                        "tertiary-container": "#d9e3f6",
+                        "on-secondary": "#2d3137",
+                        "on-tertiary-container": "#5b6575",
+                        "secondary-fixed-dim": "#c3c6cf",
+                        "surface-variant": "#323536",
+                        "secondary-container": "#454950",
+                        "surface-container": "#1d2021",
+                        "primary": "#ffffff",
+                        "on-primary-fixed-variant": "#3e4c00",
+                        "on-primary-fixed": "#171e00",
+                        "on-tertiary": "#27313f",
+                        "tertiary": "#ffffff",
+                        "on-primary-container": "#596c00",
+                        "tertiary-fixed": "#d9e3f6",
+                        "surface": "#111415",
+                        "on-tertiary-fixed-variant": "#3d4756",
+                        "on-error-container": "#ffdad6",
+                        "primary-container": "#caf300",
+                        "primary-fixed-dim": "#b0d500",
+                        "on-secondary-fixed": "#181c22",
+                        "surface-tint": "#b0d500",
+                        "error": "#ffb4ab",
+                        "on-background": "#e1e3e4",
+                        "secondary": "#c3c6cf",
+                        "surface-container-high": "#282a2b",
+                        "on-error": "#690005",
+                        "on-surface": "#e1e3e4",
+                        "secondary-fixed":"#dfe2eb",
+                        "outline-variant":"#444932",
+                        "inverse-on-surface":"#2e3132",
+                        "on-surface-variant":"#c5c9ac",
+                        "surface-container-low":"#191c1d",
+                        "on-primary":"#2a3400",
+                        "inverse-primary":"#536600",
+                        "on-secondary-container":"#b5b8c1",
+                        "outline":"#8f9378",
+                        "primary-fixed":"#caf300",
+                        "surface-container-highest":"#323536"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "24px",
+                        "container-max": "1280px",
+                        "margin-mobile": "16px",
+                        "margin-desktop": "64px",
+                        "unit": "8px"
+                    },
+                    "fontFamily": {
+                        "headline-lg-mobile": ["Space Grotesk"],
+                        "headline-xl": ["Space Grotesk"],
+                        "headline-lg": ["Space Grotesk"],
+                        "label-mono": ["JetBrains Mono"],
+                        "body-md": ["Geist"],
+                        "display-lg": ["Space Grotesk"],
+                        "body-lg": ["Geist"]
+                    },
+                    "fontSize": {
+                        "headline-lg-mobile": ["28px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                        "headline-xl": ["48px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "headline-lg": ["32px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                        "label-mono": ["14px", {"lineHeight": "1.2", "fontWeight": "500"}],
+                        "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                        "display-lg": ["72px", {"lineHeight": "1.1", "letterSpacing": "-0.04em", "fontWeight": "700"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background font-body-md text-on-surface antialiased">
+<header class="fixed top-6 left-1/2 -translate-x-1/2 w-[calc(100%-2*theme(spacing.margin-mobile))] max-w-container-max z-50 glass-panel rounded-full px-6 lg:px-8 shadow-2xl">
+<div class="h-16 flex items-center justify-between gap-4">
+<div class="flex items-center gap-3">
+<img alt="Logo Portofolio" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAbCrzoRatmqv-Yu7F0k-QgcyixIh8gm5WVPjdOLYUz3C0i9draU2gd4twlqGFEAwI7dcdqF2TEuDRbL1vKyoGsjFdhb9Y74XTTbgiF4kVHQz13-fwK2walACBhqzs2FUINwlQWMjWu54dciVHDBKd9DjAt0nAL1YMTu4hW6fA2hx8WYAj9LZPayAsv1rAEiyKsx6NEVBn3FxMai6WJLxpulkHc7fBbvQN7Gp6V749XL7hpxUukuLrlqg7821FT1S3tmIoP4RqmBBnD">
+<span class="font-headline-lg text-body-lg tracking-tight font-bold hidden sm:block">REZAL FAUZIAN</span>
+</div>
+<nav class="hidden lg:flex items-center gap-6 font-label-mono text-xs uppercase tracking-widest">
+<a class="text-on-surface-variant hover:text-primary-fixed transition-colors" href="index.html">Home</a>
+<a aria-current="page" class="text-primary-fixed font-bold neon-glow" href="tentang.html">About</a>
+<a class="text-on-surface-variant hover:text-primary-fixed transition-colors" href="proyek.html">Projects</a>
+<a class="text-on-surface-variant hover:text-primary-fixed transition-colors" href="sertifikat.html">Certificates</a>
+<a class="text-on-surface-variant hover:text-primary-fixed transition-colors" href="pengalaman.html">Experience</a>
+<a class="text-on-surface-variant hover:text-primary-fixed transition-colors" href="keahlian.html">Skills</a>
+<a class="text-on-surface-variant hover:text-primary-fixed transition-colors" href="kontak.html">Contact</a>
+</nav>
+<div class="flex items-center gap-4">
+<button class="lg:hidden text-on-surface"><span class="material-symbols-outlined">menu</span></button>
+<div class="relative p-0.5 rounded-full bg-gradient-to-tr from-primary-fixed to-transparent">
+<img alt="Profile" class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBU5lTp-7gLmrQBQaVEVmZKg97MFwQpD8cgDaYeJ-H-lrJUtyU8CFTvy-llZAtEnIw2ef0bVnz_35I1BIE03q6ydw-kdqvVLEyLB7H-aEh38OQ-cIjwM6CGHMl4WHWbdbBcmGNiOuqbrHbwEonrJ2K2Lz4pm6iOKuU8wu-w1Cc44aDvmy2sFkcs6G-_rrD1kcs5xpdojdG32OwF6WkQ4NU3ZSIXGmprKMynl78URwNHD2Vt9b_B5fQFfGcxDx1SXqJi_DQ">
+</div>
+</div>
+</div>
+</header>
+<main class="w-full pt-32 bg-transparent overflow-x-hidden">
+<div class="flex flex-col w-full">
+<!-- Hero Section with Deep 3D Frame -->
+<section class="relative px-margin-mobile lg:px-margin-desktop py-16 lg:py-32">
+<div class="max-w-container-max mx-auto grid grid-cols-1 lg:grid-cols-12 gap-gutter items-center">
+<!-- Left Column: Visual Impact with 3D Depth -->
+<div class="lg:col-span-5 relative group perspective-1000">
+<div class="absolute -top-12 -left-12 w-32 h-32 border-t-4 border-l-4 border-primary-fixed opacity-30 z-0"></div>
+<div class="relative rounded-2xl thick-3d-border glass-panel three-d-card">
+<div class="overflow-hidden rounded-xl aspect-square bg-surface-container relative">
+<img alt="Professional Headshot" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDwnbn9oMGqC_O9X0ql_R7ZyGjL_afZL8RAgXAp1FHkEy3LilJ7d-tRl3__yr7kxcZt1HeCmBM2-RDKMZI8mhxDfo_xK9cl7qAjzgYBaBA01mn_pLiN9a8ySH79Lq0Iq31SVTdlHOoxF25C_-pyef8K8lvD3NrW5COVVJRIqnyHdivQiQGn_09YkuJYmjzYPJ-b_9ixLYTfstUTXlmrWDWtIPnjYQkxy2eYJ-kzhts6kg-YSoe-Egrvg7n8ulMit2ozhlZVEogoXt_a">
+<!-- Inner glow overlay -->
+<div class="absolute inset-0 pointer-events-none bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+</div>
+<!-- Floating Informatics Tag - Enhanced 3D -->
+<div class="absolute -bottom-8 -right-8 bg-primary-fixed px-8 py-5 shadow-[20px_20px_40px_rgba(0,0,0,0.6)] transform translate-z-40 floating-3d hidden lg:block border border-white/20">
+<p class="font-label-mono text-on-primary-fixed text-sm uppercase tracking-[0.25em] font-bold">Informatics / 2024</p>
+<div class="absolute inset-0 bg-white/10 pointer-events-none"></div>
+</div>
+</div>
+</div>
+<!-- Right Column: Narrative -->
+<div class="lg:col-span-6 lg:col-start-7 space-y-8 mt-16 lg:mt-0">
+<div class="space-y-4">
+<div class="flex items-center gap-4">
+<span class="h-px w-12 bg-primary-fixed/50"></span>
+<span class="font-label-mono text-xs text-primary-fixed uppercase tracking-widest neon-glow">About Me</span>
+</div>
+<h1 class="font-display-lg text-headline-xl lg:text-display-lg leading-tight">
+                            Crafting the <span class="text-primary-fixed neon-glow">Digital</span> Future.
+                        </h1>
+</div>
+<p class="font-body-lg text-on-surface-variant max-w-xl">Hi, I'm Rezal Fauzian. An Informatics Engineering student who is actively engaged in organizational leadership, strategically minded, and deeply passionate about system architecture and creative web development. I don't just write code I design concepts and digital solutions that are functional, impactful, and ready to bridge technological complexity with modern-world needs.</p>
+<div class="flex flex-wrap gap-4 pt-4">
+<div class="flex items-center gap-3 px-6 py-4 glass-panel rounded-full border border-white/10 shadow-lg hover:border-primary-fixed/30 transition-all">
+<span class="material-symbols-outlined text-primary-fixed text-xl neon-glow">school</span>
+<span class="font-label-mono text-xs uppercase">B.Sc Informatics</span>
+</div>
+<div class="flex items-center gap-3 px-6 py-4 glass-panel rounded-full border border-white/10 shadow-lg hover:border-primary-fixed/30 transition-all">
+<span class="material-symbols-outlined text-primary-fixed text-xl neon-glow">code</span>
+<span class="font-label-mono text-xs uppercase">Artificial Intelligence</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- 3D Bento Grid Section -->
+<section class="px-margin-mobile lg:px-margin-desktop py-20 relative">
+<div class="absolute inset-0 -z-10 opacity-30 pointer-events-none">
+<div class="absolute top-1/4 right-0 w-[600px] h-[600px] bg-primary-fixed/10 blur-[150px] rounded-full"></div>
+<div class="absolute bottom-1/4 left-0 w-[400px] h-[400px] bg-blue-500/5 blur-[120px] rounded-full"></div>
+</div>
+<div class="max-w-container-max mx-auto">
+<div class="mb-16">
+<h2 class="font-headline-xl text-headline-lg lg:text-headline-xl mb-4">Core Interests</h2>
+<p class="font-body-md text-on-surface-variant max-w-lg">Pushing boundaries across three distinct technological pillars.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8 perspective-1000">
+<!-- Cloud Computing Card -->
+<div class="group relative p-10 glass-panel rounded-2xl three-d-card border-white/10 overflow-hidden bg-white/[0.03]">
+<div class="absolute -right-12 -top-12 w-40 h-40 bg-primary-fixed/5 rounded-full blur-3xl group-hover:bg-primary-fixed/20 transition-all"></div>
+<div class="relative translate-z-40">
+<div class="w-16 h-16 rounded-xl bg-primary-fixed/10 flex items-center justify-center mb-8 shadow-[inset_0_0_15px_rgba(202,243,0,0.2)]">
+<span class="material-symbols-outlined text-4xl text-primary-fixed neon-glow" style="font-variation-settings: 'FILL' 1;">cloud</span>
+</div>
+<h3 class="font-headline-lg text-headline-lg mb-4 text-white">Web Developer</h3>
+<p class="text-on-surface-variant font-body-md leading-relaxed">Specializing in building responsive, high-performance web applications with a focus on modern frameworks and seamless user experiences.</p>
+<div class="mt-8 flex items-center gap-3">
+<div class="w-2 h-2 rounded-full bg-primary-fixed shadow-[0_0_10px_rgba(202,243,0,1)]"></div>
+<span class="font-label-mono text-[11px] uppercase tracking-wider opacity-70">React | Next.js | Tailwind</span>
+</div>
+</div>
+</div>
+<!-- AI Development Card -->
+<div class="group relative p-10 glass-panel rounded-2xl three-d-card border-white/10 overflow-hidden bg-white/[0.03]" style="transform: perspective(1000px) rotateX(1.296453deg) rotateY(-5.702087deg) translateY(-12px);">
+<div class="absolute -right-12 -top-12 w-40 h-40 bg-primary-fixed/5 rounded-full blur-3xl group-hover:bg-primary-fixed/20 transition-all"></div>
+<div class="relative translate-z-40">
+<div class="w-16 h-16 rounded-xl bg-primary-fixed/10 flex items-center justify-center mb-8 shadow-[inset_0_0_15px_rgba(202,243,0,0.2)]">
+<span class="material-symbols-outlined text-4xl text-primary-fixed neon-glow" style="font-variation-settings: 'FILL' 1;">psychology</span>
+</div>
+<h3 class="font-headline-lg text-headline-lg mb-4 text-white">AI Integration</h3>
+<p class="text-on-surface-variant font-body-md leading-relaxed">Developing intelligent systems that leverage machine learning to automate complex workflows and provide insights.</p>
+<div class="mt-8 flex items-center gap-3">
+<div class="w-2 h-2 rounded-full bg-primary-fixed shadow-[0_0_10px_rgba(202,243,0,1)]"></div>
+<span class="font-label-mono text-[11px] uppercase tracking-wider opacity-70">Python / TensorFlow / OpenAI</span>
+</div>
+</div>
+</div>
+<!-- UI/UX Card -->
+<div class="group relative p-10 glass-panel rounded-2xl three-d-card border-white/10 overflow-hidden bg-white/[0.03]">
+<div class="absolute -right-12 -top-12 w-40 h-40 bg-primary-fixed/5 rounded-full blur-3xl group-hover:bg-primary-fixed/20 transition-all"></div>
+<div class="relative translate-z-40">
+<div class="w-16 h-16 rounded-xl bg-primary-fixed/10 flex items-center justify-center mb-8 shadow-[inset_0_0_15px_rgba(202,243,0,0.2)]">
+<span class="material-symbols-outlined text-4xl text-primary-fixed neon-glow" style="font-variation-settings: 'FILL' 1;">design_services</span>
+</div>
+<h3 class="font-headline-lg text-headline-lg mb-4 text-white">UI/UX Design</h3>
+<p class="text-on-surface-variant font-body-md leading-relaxed">Believing that great software should be as beautiful as it is functional. Minimalist design with high impact.</p>
+<div class="mt-8 flex items-center gap-3">
+<div class="w-2 h-2 rounded-full bg-primary-fixed shadow-[0_0_10px_rgba(202,243,0,1)]"></div>
+<span class="font-label-mono text-[11px] uppercase tracking-wider opacity-70">Figma / Prototyping / Motion</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Open Source Contribution / Metrics with 3D Blocks -->
+<section class="px-margin-mobile lg:px-margin-desktop py-20 lg:py-24 relative overflow-hidden"><div class="absolute inset-0 grid-bg-3d -z-10"></div><div class="max-w-container-max mx-auto relative z-10"><div class="relative group rounded-2xl overflow-hidden thick-3d-border glass-panel three-d-card shadow-[0_30px_90px_rgba(0,0,0,0.8)] border border-primary-fixed/30"><div class="relative w-full h-[360px] lg:h-[480px] overflow-hidden"><img src="https://lh3.googleusercontent.com/aida-public/AB6AXuBF86lSsYsmTklHWhAPgnAhPw4XaLM1FJd3kuOXsJjSVotvf3NHGrz98LjJB_CR04WtI-Mt5P9e_3nC34tuoIDkuSOc28NeExtrOOnhRsTVoZumeVXxY4HIjfe6AX02PxioZkFsVmkfHNXLFegvZHcGHQXFexprxlkSbdbthyGhIlDeh3X5yY21UFplWDbhL_L2Ylg2osmQRfARtop4lj_Wou-MXLJlzvB_H_bJC-Jaz0M6ObDh9QZvmA" alt="Futuristic Artificial Intelligence Neural Network" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"><div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/30 pointer-events-none"></div><div class="absolute inset-0 bg-gradient-to-r from-black/60 via-transparent to-transparent pointer-events-none"></div><div class="absolute top-6 left-6 lg:top-8 lg:left-8 flex items-center gap-3 px-4 py-2 rounded-full glass-panel border border-primary-fixed/40 backdrop-blur-md shadow-lg"><div class="w-2.5 h-2.5 rounded-full bg-primary-fixed animate-ping"></div><div class="w-2 h-2 rounded-full bg-primary-fixed shadow-[0_0_10px_rgba(202,243,0,1)] -ml-4"></div><span class="font-label-mono text-xs uppercase tracking-[0.2em] text-primary-fixed font-bold neon-glow">AI NEURAL NETWORK • QUANTUM ARCHITECTURE</span></div><div class="absolute bottom-6 left-6 lg:bottom-8 lg:left-8 right-6 lg:right-auto max-w-xl"><div class="flex items-center gap-2 mb-2 font-label-mono text-[11px] text-primary-fixed uppercase tracking-widest"><span class="w-2 h-2 rounded-full bg-primary-fixed"></span><span class="">Core System Visualization</span></div><h3 class="font-headline-xl text-headline-lg lg:text-headline-xl text-white drop-shadow-xl">Intelligent Neural Computation</h3><p class="font-body-md text-on-surface-variant text-sm mt-2 max-w-lg hidden sm:block">Next-generation artificial intelligence matrix exploring high-performance computational models, distributed algorithms, and autonomous system workflows.</p></div><div class="absolute bottom-6 right-6 hidden lg:flex items-center gap-3 px-5 py-3 rounded-xl glass-panel border border-white/10"><span class="material-symbols-outlined text-primary-fixed text-lg neon-glow">hub</span><span class="font-label-mono text-xs text-white uppercase tracking-wider">STATUS: OPERATIONAL</span></div></div></div></div></section>
+<!-- CTA Section - Deep Background Inversion -->
+<section class="px-margin-mobile lg:px-margin-desktop py-32 bg-primary-fixed relative overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-br from-black/25 to-transparent pointer-events-none"></div>
+<div class="max-w-container-max mx-auto text-center relative z-10">
+<h2 class="font-display-lg text-headline-xl lg:text-display-lg text-on-primary-fixed mb-12 drop-shadow-xl">Let's build something <br class="hidden md:block"> exceptional together.</h2>
+<div class="flex flex-col sm:flex-row gap-6 justify-center">
+
+<a class="px-12 py-5 border-2 border-on-primary-fixed text-on-primary-fixed rounded-full font-label-mono text-sm uppercase tracking-widest hover:bg-on-primary-fixed hover:text-primary-fixed hover:-translate-y-2 transition-all" href="#">Contact Me</a>
+</div>
+</div>
+</section>
+</div>
+</main>
+<footer class="w-full bg-surface-container-lowest py-margin-desktop mt-margin-desktop border-t border-white/5">
+<div class="max-w-container-max mx-auto px-margin-mobile lg:px-margin-desktop grid grid-cols-1 md:grid-cols-3 gap-gutter">
+<div class="space-y-6">
+<div class="flex items-center gap-3">
+<img alt="Logo Portofolio" class="h-6 w-auto opacity-80" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAbCrzoRatmqv-Yu7F0k-QgcyixIh8gm5WVPjdOLYUz3C0i9draU2gd4twlqGFEAwI7dcdqF2TEuDRbL1vKyoGsjFdhb9Y74XTTbgiF4kVHQz13-fwK2walACBhqzs2FUINwlQWMjWu54dciVHDBKd9DjAt0nAL1YMTu4hW6fA2hx8WYAj9LZPayAsv1rAEiyKsx6NEVBn3FxMai6WJLxpulkHc7fBbvQN7Gp6V749XL7hpxUukuLrlqg7821FT1S3tmIoP4RqmBBnD">
+<span class="font-headline-lg text-body-md font-bold">Rezal Fauzian</span>
+</div>
+<p class="text-on-surface-variant text-sm font-body-md leading-relaxed">A passionate student building digital experiences at the intersection of academic excellence and modern tech.</p>
+</div>
+<div class="space-y-4">
+<div>
+<h4 class="font-label-mono text-xs uppercase tracking-widest text-primary-fixed mb-6 neon-glow">Quick Links</h4>
+<nav class="flex flex-col gap-3 font-body-md text-sm">
+<a class="text-on-surface-variant hover:text-primary-fixed transition-colors" href="#">Privacy Policy</a>
+<a class="text-on-surface-variant hover:text-primary-fixed transition-colors" href="#">Resume Download</a>
+<a class="text-on-surface-variant hover:text-primary-fixed transition-colors" href="#">Open Source</a>
+</nav>
+</div>
+</div>
+<div class="space-y-4">
+<div>
+<h4 class="font-label-mono text-xs uppercase tracking-widest text-primary-fixed mb-6 neon-glow">Connect</h4>
+<div class="flex gap-4 mb-8">
+<a class="w-12 h-12 rounded-full glass-panel flex items-center justify-center text-on-surface-variant hover:bg-primary-fixed hover:text-on-primary-fixed transition-all hover:-translate-y-1 shadow-xl border border-white/5" href="#"><span class="material-symbols-outlined text-[22px]">alternate_email</span></a>
+<a class="w-12 h-12 rounded-full glass-panel flex items-center justify-center text-on-surface-variant hover:bg-primary-fixed hover:text-on-primary-fixed transition-all hover:-translate-y-1 shadow-xl border border-white/5" href="#"><span class="material-symbols-outlined text-[22px]">link</span></a>
+<a class="w-12 h-12 rounded-full glass-panel flex items-center justify-center text-on-surface-variant hover:bg-primary-fixed hover:text-on-primary-fixed transition-all hover:-translate-y-1 shadow-xl border border-white/5" href="#"><span class="material-symbols-outlined text-[22px]">share</span></a>
+</div>
+<p class="text-on-surface-variant text-xs font-label-mono">rezalofficial732@gmail.com</p>
+</div>
+</div>
+</div>
+<div class="max-w-container-max mx-auto px-margin-mobile lg:px-margin-desktop mt-16 pt-8 border-t border-white/5 text-center">
+<p class="text-on-surface-variant text-xs font-label-mono opacity-50">© 2024 PORTFOLIO CORE. BUILT WITH INTENT.</p>
+</div>
+</footer>
+<script>
+    function animateCounter(id, target) {
+        let count = 0;
+        const element = document.getElementById(id);
+        if (!element) return;
+        const duration = 1500;
+        const stepTime = 50;
+        const totalSteps = duration / stepTime;
+        const increment = target / totalSteps;
+
+        const interval = setInterval(() => {
+            count += increment;
+            if (count >= target) {
+                element.innerText = target + (id.includes('commits') ? '+' : '');
+                clearInterval(interval);
+            } else {
+                element.innerText = Math.floor(count);
+            }
+        }, stepTime);
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                animateCounter('counter-commits', 140);
+                animateCounter('counter-projects', 12);
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.5 });
+
+    const statsSection = document.getElementById('counter-commits');
+    if (statsSection) observer.observe(statsSection);
+
+    // Add enhanced parallax to 3D cards on mouse move
+    document.querySelectorAll('.three-d-card').forEach(card => {
+        card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            
+            // Subtle but deep tilt
+            const rotateX = (y - centerY) / 12;
+            const rotateY = (centerX - x) / 12;
+            
+            card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-12px)`;
+        });
+
+        card.addEventListener('mouseleave', () => {
+            card.style.transform = '';
+        });
+    });
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+</body></html>
