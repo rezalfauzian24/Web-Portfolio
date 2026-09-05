@@ -218,7 +218,7 @@
 <a class="text-on-surface-variant hover:text-primary transition-all hover:translate-y-[-1px]" href="kontak.html">Contact</a>
 </nav>
 <div class="flex items-center gap-5">
-<button class="lg:hidden text-on-surface hover:text-primary-fixed transition-colors"><span class="material-symbols-outlined text-3xl">menu</span></button>
+<button class="lg:hidden text-on-surface hover:text-primary-fixed transition-colors" id="mobile-menu-btn"><span class="material-symbols-outlined text-3xl">menu</span></button>
 <div class="relative group p-[2px] rounded-full bg-gradient-to-tr from-primary-fixed via-cyan-400 to-transparent">
 <div class="absolute inset-0 rounded-full blur-md opacity-0 group-hover:opacity-50 transition-opacity bg-primary-fixed"></div>
 <img alt="Profile" class="relative w-10 h-10 rounded-full border-2 border-black/80 object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAPO5-rljmI48ZuSeTAGXLHU3wQs2W_nqdBOxkkZ5XcoBc1W5MaRE8lPgwx2QbqT13KZQ5b63L93ZN29UQxDO-C0MjlLBe6cPgo1_W8p7AVST3HVkc6qUXmKZ6yzN2ydItx9OIxCMhUz3q-kwmkvIBwAfeNY_TOlIo2Axm7DTyjDJVZ-X8cufIX1bv0YJgAA5MTrpVV9uwj8Ns6kNKwXrahiLl8QA5LSsvcKShWUS65q9dMCZcosf18AVZccy6mENFS1AY">
@@ -226,6 +226,32 @@
 </div>
 </div>
 </header>
+<div class="hidden fixed inset-0 z-[999] bg-[#06090a]/98 backdrop-blur-xl flex-col items-center justify-center gap-8" id="mobile-menu">
+<button aria-label="Tutup menu" class="absolute top-8 right-8 text-white/80 hover:text-primary-fixed transition-colors" id="mobile-menu-close">
+<span class="material-symbols-outlined text-4xl">close</span>
+</button>
+<a class="mobile-nav-link text-2xl font-label-mono uppercase tracking-widest text-primary-fixed font-bold hover:text-primary-fixed transition-colors" href="index.html">Home</a>
+<a class="mobile-nav-link text-2xl font-label-mono uppercase tracking-widest text-white/80 hover:text-primary-fixed transition-colors" href="tentang.html">About</a>
+<a class="mobile-nav-link text-2xl font-label-mono uppercase tracking-widest text-white/80 hover:text-primary-fixed transition-colors" href="proyek.html">Projects</a>
+<a class="mobile-nav-link text-2xl font-label-mono uppercase tracking-widest text-white/80 hover:text-primary-fixed transition-colors" href="sertifikat.html">Certificates</a>
+<a class="mobile-nav-link text-2xl font-label-mono uppercase tracking-widest text-white/80 hover:text-primary-fixed transition-colors" href="pengalaman.html">Experience</a>
+<a class="mobile-nav-link text-2xl font-label-mono uppercase tracking-widest text-white/80 hover:text-primary-fixed transition-colors" href="keahlian.html">Skills</a>
+<a class="mobile-nav-link text-2xl font-label-mono uppercase tracking-widest text-white/80 hover:text-primary-fixed transition-colors" href="kontak.html">Contact</a>
+</div>
+<script>
+(function() {
+  var btn = document.getElementById('mobile-menu-btn');
+  var menu = document.getElementById('mobile-menu');
+  var closeBtn = document.getElementById('mobile-menu-close');
+  if (!btn || !menu) return;
+  function openMenu() { menu.classList.remove('hidden'); menu.classList.add('flex'); document.body.style.overflow = 'hidden'; }
+  function closeMenu() { menu.classList.add('hidden'); menu.classList.remove('flex'); document.body.style.overflow = ''; }
+  btn.addEventListener('click', openMenu);
+  if (closeBtn) closeBtn.addEventListener('click', closeMenu);
+  menu.querySelectorAll('a').forEach(function(a) { a.addEventListener('click', closeMenu); });
+})();
+</script>
+
 <main class="relative z-10 w-full pt-32">
 <div class="flex flex-col w-full">
 <!-- Dynamic Hero Section -->
@@ -301,7 +327,7 @@
 </div>
 <!-- Main Visual Container -->
 <div class="relative aspect-[4/5.5] rounded-[2.5rem] overflow-hidden border border-white/20 shadow-[0_80px_160px_rgba(0,0,0,0.9)] group">
-<img alt="rezalofficial732@gmail.com" class="w-full h-full object-cover brightness-90 contrast-125 group-hover:grayscale-0 group-hover:scale-105 transition-all duration-[1.5s] ease-out" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBgUJdVPDD0bA9XqsNz_in21_1y0aoY4aOToUhsiolFsteWcLKAMGMVduc583u6EFT0u4e4HYCORVSsaoUWiyATU3TRpwnziDQgw6f56zsvHiDj8_AF6a8J5rB1etW5_eVRag06BSWzHJpUmX9i7_x7sHdBTIuCpJeOTObAstgQSSkR5M7n2qPbXK6VMfd3zY3fUDEbaYpOAzjM-sbiqim_g3dOTCTaSM8u99uMaEpy25kQoid_PoMTE-H4xEBaY8FZvR291icGl6db">
+<img alt="Rezal Fauzian" class="w-full h-full object-cover brightness-90 contrast-125 group-hover:grayscale-0 group-hover:scale-105 transition-all duration-[1.5s] ease-out" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBgUJdVPDD0bA9XqsNz_in21_1y0aoY4aOToUhsiolFsteWcLKAMGMVduc583u6EFT0u4e4HYCORVSsaoUWiyATU3TRpwnziDQgw6f56zsvHiDj8_AF6a8J5rB1etW5_eVRag06BSWzHJpUmX9i7_x7sHdBTIuCpJeOTObAstgQSSkR5M7n2qPbXK6VMfd3zY3fUDEbaYpOAzjM-sbiqim_g3dOTCTaSM8u99uMaEpy25kQoid_PoMTE-H4xEBaY8FZvR291icGl6db">
 <div class="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent opacity-95"></div>
 <div class="absolute inset-0 border-[24px] border-white/5 rounded-[2.5rem] pointer-events-none"></div>
 <!-- Holographic Grain/Noise Overlay -->
@@ -361,7 +387,7 @@
 <a class="w-14 h-14 rounded-2xl glass-panel flex items-center justify-center text-on-surface-variant hover:bg-emerald-400 hover:text-on-primary hover:scale-110 transition-all shadow-2xl border-glow-intense" href="#"><span class="material-symbols-outlined text-2xl">share</span></a>
 </div>
 <div class="p-4 rounded-xl glass-panel inline-block border-glow-intense">
-<p class="text-primary-fixed text-xs font-label-mono font-black tracking-widest uppercase">hello@farhannaufal.com</p>
+<p class="text-primary-fixed text-xs font-label-mono font-black tracking-widest uppercase">hello@rezalofficial732@gmail.com</p>
 </div>
 </div>
 </div>

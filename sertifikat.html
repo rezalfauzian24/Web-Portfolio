@@ -191,11 +191,37 @@
 <a class="text-on-surface-variant hover:text-primary transition-colors" data-path="contact" href="kontak.html">Contact</a>
 </nav>
 <div class="flex items-center gap-4">
-<button class="lg:hidden text-on-surface"><span class="material-symbols-outlined">menu</span></button>
+<button class="lg:hidden text-on-surface" id="mobile-menu-btn"><span class="material-symbols-outlined">menu</span></button>
 <img alt="Profile" class="w-8 h-8 rounded-full border border-primary-container/20 object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAIdu7dPyAnQdWmOXxZ3mEHNWxZCPJtKjRl2Ydp2XZOcaQrSGv3b1n6-z2FcwwlkZC3iU4q5X222RE8J64IlmY0ZyFxav60mC0ktMaNhwYBiA-M24e21u1INOPZSUzbOzJsZ6BwHKsPwfIWbWnR0P4E308IGNeM9zWSHGi0qgmlq_hWdWWNW-1Jap5-PDYs41Yv_6qmDpBAXhakznx_ADe0bev1L4q77R_ClByC_iTazh4-tWAdZlW0NCHImU8FiLIjP74">
 </div>
 </div>
 </header>
+<div class="hidden fixed inset-0 z-[999] bg-[#06090a]/98 backdrop-blur-xl flex-col items-center justify-center gap-8" id="mobile-menu">
+<button aria-label="Tutup menu" class="absolute top-8 right-8 text-white/80 hover:text-primary-fixed transition-colors" id="mobile-menu-close">
+<span class="material-symbols-outlined text-4xl">close</span>
+</button>
+<a class="mobile-nav-link text-2xl font-label-mono uppercase tracking-widest text-white/80 hover:text-primary-fixed transition-colors" href="index.html">Home</a>
+<a class="mobile-nav-link text-2xl font-label-mono uppercase tracking-widest text-white/80 hover:text-primary-fixed transition-colors" href="tentang.html">About</a>
+<a class="mobile-nav-link text-2xl font-label-mono uppercase tracking-widest text-white/80 hover:text-primary-fixed transition-colors" href="proyek.html">Projects</a>
+<a class="mobile-nav-link text-2xl font-label-mono uppercase tracking-widest text-primary-fixed font-bold hover:text-primary-fixed transition-colors" href="sertifikat.html">Certificates</a>
+<a class="mobile-nav-link text-2xl font-label-mono uppercase tracking-widest text-white/80 hover:text-primary-fixed transition-colors" href="pengalaman.html">Experience</a>
+<a class="mobile-nav-link text-2xl font-label-mono uppercase tracking-widest text-white/80 hover:text-primary-fixed transition-colors" href="keahlian.html">Skills</a>
+<a class="mobile-nav-link text-2xl font-label-mono uppercase tracking-widest text-white/80 hover:text-primary-fixed transition-colors" href="kontak.html">Contact</a>
+</div>
+<script>
+(function() {
+  var btn = document.getElementById('mobile-menu-btn');
+  var menu = document.getElementById('mobile-menu');
+  var closeBtn = document.getElementById('mobile-menu-close');
+  if (!btn || !menu) return;
+  function openMenu() { menu.classList.remove('hidden'); menu.classList.add('flex'); document.body.style.overflow = 'hidden'; }
+  function closeMenu() { menu.classList.add('hidden'); menu.classList.remove('flex'); document.body.style.overflow = ''; }
+  btn.addEventListener('click', openMenu);
+  if (closeBtn) closeBtn.addEventListener('click', closeMenu);
+  menu.querySelectorAll('a').forEach(function(a) { a.addEventListener('click', closeMenu); });
+})();
+</script>
+
 <main class="w-full pt-32">
 <div class="flex flex-col w-full">
 <!-- Header Section -->
